@@ -1,0 +1,32 @@
+﻿ID,Sinahala_words,English_words,Semmantic_meaning
+1,සිසුවා,Student,Table
+2,ශිෂ්‍යයා,Student,Table
+3,ළමයා,Student,Table
+4,ලමයා,Student,Table
+5,නම,name,column
+6,ලිපිනය,address,column
+7,වයස,age,column
+8,ලකුණු,marks,column
+9,ලකුනු,marks,column
+10,ලබාදෙන්න,select,command
+11,දෙන්න,select,command
+12,කුමක්ද,select,command
+13,කීයද,select,command
+14,කොපමණද,select,command
+15,පමණක්,where,condition
+16,සහ,And,Logical_operator 
+17,හා,And,Logical_operator 
+18,හෝ,Or,Logical_operator 
+19,ක්,=,Condition _ operator
+20,ට වැඩි,>,Condition _ operator
+21,වඩා,>,Condition _ operator
+22,ට අඩු,<,Condition _ operator
+23,හෝ වැඩි,>=,Condition _ operator
+24,සහ වැඩි,>=,Condition _ operator
+25,හෝ අඩු,<=,Condition _ operator 
+26,සහ අඩු,<=,Condition _ operator
+27,ලබාගත්,-,unnecessary_word
+28,නිසා,-,unnecessary_word
+29,ඇත,-,unnecessary_word
+30,බවට,-,unnecessary_word
+31,සිසුන්,Student,Table
