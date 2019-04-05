@@ -20,7 +20,7 @@ with open('meta_data_post_process.csv') as post_p_file:
 
 
 
-default_tagger = nltk.DefaultTagger('unnecessary_word')
+default_tagger = nltk.DefaultTagger('unknown')
 tagger = nltk.tag.UnigramTagger(model=tagger_model, backoff=default_tagger)
 
 

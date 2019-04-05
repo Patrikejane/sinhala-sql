@@ -1,4 +1,4 @@
-﻿ID,Sinahala_words,English_words,Semmantic_meaning
+ID,Sinahala_words,English_words,Semmantic_meaning
 1,සිසුවා,Student,Table
 2,ශිෂ්‍යයා,Student,Table
 3,ළමයා,Student,Table
@@ -18,7 +18,10 @@
 17,හා,And,Logical_operator 
 18,හෝ,Or,Logical_operator 
 19,ක්,=,Condition _ operator
+,සමාන,=,Condition _ operator
 20,ට වැඩි,>,Condition _ operator
+20,ටවැඩි,>,Condition _ operator
+,වැඩි,>,Condition _ operator
 21,වඩා,>,Condition _ operator
 22,ට අඩු,<,Condition _ operator
 23,හෝ වැඩි,>=,Condition _ operator

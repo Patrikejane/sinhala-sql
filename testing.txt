@@ -1,0 +1,47 @@
+def create_condisional(conditional, conditions,logicalObject):
+    conObject = {}
+
+    # for i in conditional:
+    #     sqlsyntax, sematic_mean = i
+    #     if sematic_mean != "unnecessary_word":
+    #         sqlSyntax = sqlmapper[sqlsyntax]
+    #         print(sqlSyntax)
+    #
+    #     else:
+    #         print("unnecessary word")
+
+    column_found = False
+    invalid =False
+
+    for i in range(len(conditional)):
+        sqlsyntax, sematic_mean = conditional[i]
+        if (not column_found) and sematic_mean == 'column':
+            conObject['column'] = conditional[i]
+            conObject['value'] = conditional[i + 1]
+            column_found = True
+            # print('fuk')
+            continue
+        if (sematic_mean == 'unknown'):
+            continue
+        if column_found and sematic_mean == 'Condition _ operator':
+            conObject['operator'] = conditional[i]
+            conditions.append(conObject)
+            # print('fuk 2')
+            # print(conditions)
+            continue
+
+        if sematic_mean == 'Logical_operator ':
+            logicalObject.append(conditional[i])
+            invalid = False
+            # print('fuk4')
+            # print(conditions)
+            create_condisional(conditional[i+1:],conditions,logicalObject)
+
+        if i == len(conditional) -1:
+            invalid = False
+            # print('fuk3')
+            return conditions
+
+        else:
+            # print('fuk5')
+            return conditions

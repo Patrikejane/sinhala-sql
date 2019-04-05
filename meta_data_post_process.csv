@@ -7,7 +7,7 @@ Sinahala_words,Root_word,English_words,"Semmantic_meaning
 නම,නම,name,column
 ලිපිනය,ලිපින,address,column
 වයස,වයස,age,column
-ලකුණු,,marks,column
+ලකුණු,ලකුණු,marks,column
 ලකුනු,ලකුනු,marks,column
 ලබාදෙන්න,ලබාදෙන්න,select,command
 දෙන්න,ලබාදෙන්න,select,command
@@ -19,7 +19,10 @@ Sinahala_words,Root_word,English_words,"Semmantic_meaning
 හා,හා,And,Logical_operator 
 හෝ,හෝ,Or,Logical_operator 
 ක්,ක්,=,Condition _ operator
+සමාන,සමාන,=,Condition _ operator
 ටවැඩි,ටවැඩි,>,Condition _ operator
+ටවැඩි,ටවැඩි,>,Condition _ operator
+වැඩි,වැඩි,>,Condition _ operator
 වඩා,වඩා,>,Condition _ operator
 ටඅඩු,ටඅඩු,<,Condition _ operator
 හෝවැඩි,හෝවැඩි,>=,Condition _ operator

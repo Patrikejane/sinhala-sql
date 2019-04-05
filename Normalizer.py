@@ -16,4 +16,7 @@ for s in sinhala_dict:
 # print(stem_dictionary)
 
 def Normaliser(word):
-    return stem_dictionary.get(word, word)
+    r = word if (stem_dictionary.get(word, word) == '')  else stem_dictionary.get(word, word)
+    # print (word, r)
+    return  r
+
