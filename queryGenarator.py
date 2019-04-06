@@ -25,74 +25,82 @@ def create_Query(OperationsList,listOfTableName,listOfAttributes):
     return Query
 
 def validate_conditional(conditional, conditions,logicalObject):
-    conObject = {}
-    logObject = {}
+    if len(conditional) > 0:
+        conObject = {}
+        logObject = {}
 
-    # for i in conditional:
-    #     sqlsyntax, sematic_mean = i
-    #     if sematic_mean != "unnecessary_word":
-    #         sqlSyntax = sqlmapper[sqlsyntax]
-    #         print(sqlSyntax)
-    #
-    #     else:
-    #         print("unnecessary word")
+        # for i in conditional:
+        #     sqlsyntax, sematic_mean = i
+        #     if sematic_mean != "unnecessary_word":
+        #         sqlSyntax = sqlmapper[sqlsyntax]
+        #         print(sqlSyntax)
+        #
+        #     else:
+        #         print("unnecessary word")
 
-    column_found = False
-    condition_found = False
+        column_found = False
+        condition_found = False
 
-    for i in range(len(conditional)):
-        sqlsyntax, sematic_mean = conditional[i]
-        if (not column_found) and sematic_mean == 'column':
-            conObject['column'] = conditional[i]
-            conObject['value'] = conditional[i + 1]
-            column_found = True
-            continue
+        for i in range(len(conditional)):
+            sqlsyntax, sematic_mean = conditional[i]
+            if (not column_found) and sematic_mean == 'column':
+                conObject['column'] = conditional[i]
+                conObject['value'] = conditional[i + 1]
+                column_found = True
+                continue
 
-        if column_found and ( not condition_found) and sematic_mean == 'Condition _ operator':
-            conObject['operator'] = conditional[i]
-            conditions.append(conObject)
-            condition_found = True
-            ''' duplicate Condition operator  '''
-        elif condition_found and sematic_mean == 'Condition _ operator':
-            print("invalid query string ")
-            return False
+            if column_found and ( not condition_found) and sematic_mean == 'Condition _ operator':
+                conObject['operator'] = conditional[i]
+                conditions.append(conObject)
+                condition_found = True
+                ''' duplicate Condition operator  '''
+            elif condition_found and sematic_mean == 'Condition _ operator':
+                # print("invalid query string ")
+                return False
 
-        if column_found and condition_found and sematic_mean == 'Logical_operator ':
-            logicalObject.append(conditional[i])
-            logObject['Logical'] = conditional[i]
-            # conditions.append(logObject)
-            return validate_conditional(conditional[i+1:], conditions, logicalObject)
+            if column_found and condition_found and sematic_mean == 'Logical_operator ':
+                logicalObject.append(conditional[i])
+                logObject['Logical'] = conditional[i]
+                # conditions.append(logObject)
+                return validate_conditional(conditional[i+1:], conditions, logicalObject)
 
-        ''' duplicate logical operator  '''
-        if sematic_mean == 'Logical_operator ':
-            print("invalid query string ")
-            return False
+            ''' duplicate logical operator  '''
+            if sematic_mean == 'Logical_operator ':
+                # print("invalid query string ")
+                return False
 
-        if i == len(conditional) - 1 and column_found and condition_found:
-            invalid = False
-            print("valid query found ")
-            return True
+            if i == len(conditional) - 1 and column_found and condition_found:
+                invalid = False
+                # print("valid query found ")
+                return True
 
 
-    print("invalid query string ")
-    return False
+        # print("invalid query string ")
+        return False
+    else:
+        return True
+
 
 def create_condisional(conditions,logicalObject):
     Query = ""
 
     for i in range(len(conditions)):
 
+        conObject = conditions[i]
+
+        columnsqlsyntax, column = conObject['column']
+        valuesqlsyntax, value = conObject['value']
+        operatorsqlsyntax, operator = conObject['operator']
+
         if( i == len(conditions) -1):
-            pass
+
+            Query += " " + sqlmapper[columnsqlsyntax] + " " + sqlmapper[operatorsqlsyntax] + " " + valuesqlsyntax
+
         else:
-            conObject = conditions[i]
-            logObject = logicalObject[i]
 
-            columnsqlsyntax,column = conObject['column']
-            valuesqlsyntax,value = conObject['value']
-            operatorsqlsyntax,operator = conObject['operator']
+            logicalsyntax,logical = logicalObject[i]
 
-            Query +=  sqlmapper[columnsqlsyntax] + " " +  sqlmapper[operatorsqlsyntax] + " "+  valuesqlsyntax + " "+ logicalObject
+            Query +=  sqlmapper[columnsqlsyntax] + " " +  sqlmapper[operatorsqlsyntax] + " "+  valuesqlsyntax + " "+  sqlmapper[logicalsyntax]
 
-    print(Query)
+    return Query
 

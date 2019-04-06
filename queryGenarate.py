@@ -11,7 +11,6 @@ boundryTokens = ["සමාන", "වන", "පමණක්", "වැඩි", "�
 stopwords = ['ට']
 
 # strLine = " සිසුන්ගේ ලකුණු දෙන්න"
-
 # strLine = "සිසුන්ගේ නම දෙන්න ලකුණු 75 ක් ලබාගත්"
 # strLine = "ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන සිසුන්ගේ නම දෙන්න"
 # strLine = "සිසුන්ගේ නම කුමක්ද ලකුණු 75 ට වැඩි"
@@ -23,9 +22,12 @@ strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 �
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සමාන සමාන සහ වයස 22 ට සමාන"
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන සහ"
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ සහ වයස 22 ට සමාන"
+# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 සමාන"
 
 tagger = joblib.load('posTagger.pkl')
 sqlmapper = joblib.load('sqlMapper.pkl')
+
+GENARATED_SQL_QUERY = ""
 
 
 def tokernizing_clean(text):
@@ -37,15 +39,25 @@ def tokernizing_clean(text):
     return tokens
 
 
+print("Sinhala String Query : ",strLine)
+
 tokeniezed =tokernizing_clean(strLine)
 print("tokenized sentence : ", tokeniezed)
 
+print('#**#')
+print('#**#')
+print('#**#')
+
 normalied_tokens_stop = list(map(Normaliser ,tokeniezed))
-print("normalied_tokens_stop tokens : ", normalied_tokens_stop )
+print("normalied_tokens with stop words : ", normalied_tokens_stop )
 
 #remove stop words
 normalied_tokens = [item for item in normalied_tokens_stop if item not in stopwords]
-print("normalied_tokens tokens : ", normalied_tokens )
+print("normalied_tokens removed stop words : ", normalied_tokens )
+
+print('#**#')
+print('#**#')
+print('#**#')
 
 tagger_list = tagger.tag(normalied_tokens)
 print("pos tagged tokens : ", tagger_list)
@@ -63,6 +75,9 @@ for i in tagger_list:
 
 # tagger_list_norm = [v for k,v in tagedDict if k != 'unnecessary_word']
 
+print('#**#')
+print('#**#')
+print('#**#')
 
 # print("tagged list norm  : ",tagger_list_norm)
 # print("tagged dict : ",tagedDict)
@@ -97,6 +112,11 @@ print("main query :",mainQuery)
 print("conditional part : ", conditionalQuery)
 
 
+print('#**#')
+print('#**#')
+print('#**#')
+
+
 commands = []
 tableNames = []
 attributeName = []
@@ -127,21 +147,26 @@ sql_query_main_Query = create_Query(commands,tableNames,attributeName)
 conditional_validation = validate_conditional(conditionalQuery,conditions,logicalObject)
 
 
+GENARATED_SQL_QUERY = sql_query_main_Query
 
-if conditional_validation:
-    print( 'Conditional true string' )
+if conditional_validation and len(conditions) == 0:
+    GENARATED_SQL_QUERY += ""
+elif conditional_validation:
+    # print( 'Conditional true string' )
     sql_conditinal_query = create_condisional(conditions, logicalObject)
+
+    GENARATED_SQL_QUERY += "WHERE " + sql_conditinal_query
 else:
-    print('invalid string')
+    GENARATED_SQL_QUERY = "INVALID QUERY"
     # sql_conditinal_query = create_condisional(conditions, logicalObject)
 
 
-
-print("Genarated Sql Query : ",sql_query_main_Query )
-print( "conditional Query  : " , conditional_validation )
-
-print("conditions : ", conditions)
-print("logic : ",logicalObject)
+print(GENARATED_SQL_QUERY)
+# print("Genarated Sql Query : ",sql_query_main_Query )
+# print( "conditional Query  : " , conditional_validation )
+#
+# print("conditions : ", conditions)
+# print("logic : ",logicalObject)
 
 
 # print(type(1))
