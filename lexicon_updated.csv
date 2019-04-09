@@ -32,4 +32,13 @@ ID,Sinahala_words,English_words,Semmantic_meaning
 28,නිසා,-,unnecessary_word
 29,ඇත,-,unnecessary_word
 30,බවට,-,unnecessary_word
+,ගණන,count,calculation
+,එකතුව,sum,calculation
+,ප්රමාණය,count,calculation
+,සාමාන්යය,average,calculation
+,උපරිම,max,calculation
+,අවම,min,calculation
+,අනුපිලිවලින්,ORDER BY,function
+,පිලිවලින්,ORDER BY,function
+,පිලිවලට,ORDER BY,function
 31,සිසුන්,Student,Table
