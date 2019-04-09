@@ -33,4 +33,13 @@ Sinahala_words,Root_word,English_words,"Semmantic_meaning
 නිසා,නිසා,-,unnecessary_word
 ඇත,ඇත,-,unnecessary_word
 බවට,බවට,-,unnecessary_word
+ගණන,ගණන,count,calculation
+එකතුව,එකතුව,sum,calculation
+ප්රමාණය,ප්රමාණය,count,calculation
+සාමාන්යය,සාමාන්යය,average,calculation
+උපරිම,උපරිම,max,calculation
+අවම,අවම,min,calculation
+අනුපිලිවලින්,අනුපිලිවලින්,ORDER BY,function
+පිලිවලින්,පිලිවලින්,ORDER BY,function
+පිලිවලට,පිලිවලට,ORDER BY,function
 සිසුන්,සිසුන්,Student,Table
