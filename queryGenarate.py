@@ -5,172 +5,87 @@ import re
 from sklearn.externals import joblib
 
 from Normalizer import Normaliser
-from queryGenarator import create_Query,validate_conditional,create_condisional
+from queryGenarator import validate_main, validate_conditional, create_condisional, create_main_query,\
+    genarate_boundry_command ,tokernizing_clean, separate_main_conditional,main_query_tokens,concat_query
 
-boundryTokens = ["සමාන", "වන", "පමණක්", "වැඩි", "වඩා", "අඩු","ක්"]
-stopwords = ['ට']
 
-# strLine = " සිසුන්ගේ ලකුණු දෙන්න"
-# strLine = "සිසුන්ගේ නම දෙන්න ලකුණු 75 ක් ලබාගත්"
-# strLine = "ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන සිසුන්ගේ නම දෙන්න"
-# strLine = "සිසුන්ගේ නම කුමක්ද ලකුණු 75 ට වැඩි"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන සමාන සමාන සමාන"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස වයස 22 ට සමාන"
-strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 සමාන"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සමාන සමාන සහ වයස 22 ට සමාන"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන සහ"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ සහ වයස 22 ට සමාන"
-# strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 සමාන"
+
+stopwords = ['ට', 'වල']
+
 
 tagger = joblib.load('posTagger.pkl')
 sqlmapper = joblib.load('sqlMapper.pkl')
 
-GENARATED_SQL_QUERY = ""
+def genarate_query(strLine):
+    GENARATED_SQL_QUERY = ""
+
+    print("Sinhala String Query : ", strLine)
+
+    tokeniezed = tokernizing_clean(strLine)
+    print("tokenized sentence : ", tokeniezed)
+
+    # with stop words
+    normalied_tokens_stop = list(map(Normaliser, tokeniezed))
+    print("normalied_tokens with stop words : ", normalied_tokens_stop)
+
+    # remove stop words
+    normalied_tokens = [item for item in normalied_tokens_stop if item not in stopwords]
+    print("normalied_tokens removed stop words : ", normalied_tokens)
+
+    # tag the stop word removed string
+    tagger_list = tagger.tag(normalied_tokens)
+    print("pos tagged tokens : ", tagger_list)
+
+    tagedDict = h = {v: k for k, v in tagger_list}
+
+    # remove unnecessary words
+    tagger_list_norm = []
+    for i in tagger_list:
+        sqlsyntax, sematic_mean = i
+        if sematic_mean != "unnecessary_word":
+            tagger_list_norm.append(i)
+        else:
+            normalied_tokens.remove(sqlsyntax)
+
+    # tagger_list_norm = [v for k,v in tagedDict if k != 'unnecessary_word']
+
+    # boundry index and command index
+    boundryIndex, commandIndex = genarate_boundry_command(normalied_tokens, tagedDict)
+
+    # separate main query and conditional query
+    mainQuery, conditionalQuery = separate_main_conditional(boundryIndex, commandIndex, tagger_list_norm)
 
 
-def tokernizing_clean(text):
-    tokens = nltk.word_tokenize(text)
-
-    # regex = re.compile(u'[^\u0D80-\u0DFF]', re.UNICODE)
-    # tokens = [regex.sub('', w) for w in tokens]
-
-    return tokens
+    print("main query :", mainQuery)
+    print("conditional part : ", conditionalQuery)
 
 
-print("Sinhala String Query : ",strLine)
+    # torkanize main query
+    commands, tableNames ,attributeName ,functions  = main_query_tokens(mainQuery)
 
-tokeniezed =tokernizing_clean(strLine)
-print("tokenized sentence : ", tokeniezed)
+    # print(commands,tableNames,attributeName)
 
-print('#**#')
-print('#**#')
-print('#**#')
+    conditions = []
+    logicalObject = []
 
-normalied_tokens_stop = list(map(Normaliser ,tokeniezed))
-print("normalied_tokens with stop words : ", normalied_tokens_stop )
+    sql_query_main_Query = validate_main(mainQuery, commands, tableNames, attributeName)
+    main_query = create_main_query(sql_query_main_Query)
+    conditional_validation = validate_conditional(conditionalQuery, conditions, logicalObject)
 
-#remove stop words
-normalied_tokens = [item for item in normalied_tokens_stop if item not in stopwords]
-print("normalied_tokens removed stop words : ", normalied_tokens )
+    GENARATED_SQL_QUERY = main_query[0]
+    GENARATED_SQL_FUNCTION = main_query[1]
 
-print('#**#')
-print('#**#')
-print('#**#')
+    GENARATED_SQL_QUERY = concat_query(conditional_validation, conditions, GENARATED_SQL_QUERY, logicalObject, GENARATED_SQL_FUNCTION)
+    # print(GENARATED_SQL_QUERY)
 
-tagger_list = tagger.tag(normalied_tokens)
-print("pos tagged tokens : ", tagger_list)
+    return GENARATED_SQL_QUERY
+    # print("Genarated Sql Query : ",sql_query_main_Query )
+    # print( "conditional Query  : " , conditional_validation )
+    #
+    # print("conditions : ", conditions)
+    # print("logic : ",logicalObject)
+    # print(type(1))
+    # print("11".isdigit() )
+    # # print(int("a"))
 
-tagedDict = h = {v:k for k,v in tagger_list}
-
-tagger_list_norm = []
-for i in tagger_list:
-    sqlsyntax, sematic_mean = i
-    if sematic_mean != "unnecessary_word":
-        tagger_list_norm.append(i)
-    else:
-        normalied_tokens.remove(sqlsyntax)
-
-
-# tagger_list_norm = [v for k,v in tagedDict if k != 'unnecessary_word']
-
-print('#**#')
-print('#**#')
-print('#**#')
-
-# print("tagged list norm  : ",tagger_list_norm)
-# print("tagged dict : ",tagedDict)
-
-boundryIndexs = {}
-for i in boundryTokens:
-    reversednorm = normalied_tokens[::-1]
-    boundryIndexs[i] = len(reversednorm) - 1 -reversednorm.index(i) if i in normalied_tokens else -1
-
-# print("bround index : " , boundryIndexs)
-
-boundryIndex =  max(boundryIndexs.values())
-# print("bround index : " , boundryIndex)
-
-commandIndex = normalied_tokens.index(tagedDict.get('command'))
-# tableIndex = normalied_tokens.index(tagedDict.get('Table'))
-
-
-mainQuery = ''
-conditionalQuery = ''
-if boundryIndex < commandIndex :
-    conditionalQuery = tagger_list_norm[:boundryIndex + 1]
-    mainQuery = tagger_list_norm[boundryIndex+1:]
-    # print("conditional part befor main")
-
-else:
-    mainQuery = tagger_list_norm[:commandIndex + 1]
-    conditionalQuery = tagger_list_norm[commandIndex + 1::]
-    # print("conditional part after main ")
-
-print("main query :",mainQuery)
-print("conditional part : ", conditionalQuery)
-
-
-print('#**#')
-print('#**#')
-print('#**#')
-
-
-commands = []
-tableNames = []
-attributeName = []
-
-
-for i in mainQuery:
-    sqlsyntax, sematic_mean  = i
-    if sematic_mean != "unnecessary_word":
-        sqlSyntax = sqlmapper[sqlsyntax]
-        if sematic_mean == "Table" :
-            tableNames.append(sqlSyntax)
-
-        elif sematic_mean == "column":
-            attributeName.append(sqlSyntax)
-
-        elif sematic_mean == "command":
-            commands.append(sqlSyntax)
-
-    else:
-        print("unnecessary word")
-
-# print(commands,tableNames,attributeName)
-
-conditions = []
-logicalObject = []
-
-sql_query_main_Query = create_Query(commands,tableNames,attributeName)
-conditional_validation = validate_conditional(conditionalQuery,conditions,logicalObject)
-
-
-GENARATED_SQL_QUERY = sql_query_main_Query
-
-if conditional_validation and len(conditions) == 0:
-    GENARATED_SQL_QUERY += ""
-elif conditional_validation:
-    # print( 'Conditional true string' )
-    sql_conditinal_query = create_condisional(conditions, logicalObject)
-
-    GENARATED_SQL_QUERY += "WHERE " + sql_conditinal_query
-else:
-    GENARATED_SQL_QUERY = "INVALID QUERY"
-    # sql_conditinal_query = create_condisional(conditions, logicalObject)
-
-
-print(GENARATED_SQL_QUERY)
-# print("Genarated Sql Query : ",sql_query_main_Query )
-# print( "conditional Query  : " , conditional_validation )
-#
-# print("conditions : ", conditions)
-# print("logic : ",logicalObject)
-
-
-# print(type(1))
-# print("11".isdigit() )
-# # print(int("a"))
-
-
+    ## TODO Meta Data Automation  Sql

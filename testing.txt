@@ -45,3 +45,37 @@ def create_condisional(conditional, conditions,logicalObject):
         else:
             # print('fuk5')
             return conditions
+
+
+###########----------- QUERY mysql connector ---------------- ###########
+
+# con = mysql.connector.connect(user='root', password='sunimalroot',
+#                                   host='127.0.0.1',
+#                                   database='nlpDb')
+# c = con.cursor()
+#
+# users = []
+#
+# c.execute("""SELECT * FROM Student""")
+#
+# for row in c:
+#     user = {
+#         'student_id': row[0],
+#         'name': row[1],
+#         'marks': row[2]
+#     }
+#     users.append(user)
+#
+# print(users)
+#
+# c.execute("""DESCRIBE Student""")
+#
+# for i in c:
+#     print(i)
+#
+# c.execute("""DESCRIBE සිසුන්""")
+#
+# for i in c:
+#     print(i)
+#
+# c.close()
