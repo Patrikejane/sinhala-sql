@@ -80,4 +80,4 @@ def genarate_query(strLine):
 
     return GENARATED_SQL_QUERY
 
-    ## TODO Meta Data Automation Sql
+    ## TODO Meta Data Automation  Sql
