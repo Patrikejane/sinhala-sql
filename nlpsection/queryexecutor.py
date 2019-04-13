@@ -74,3 +74,12 @@ def execute_query(strLine):
     close_connection(cursor)
 
     return results
+
+
+def genarate_query():
+    GENARATED_SQL_QUERY = genarate_query(strLine)
+
+    print("----------- Genarated Query -----------")
+    print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+
+    return  GENARATED_SQL_QUERY

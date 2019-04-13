@@ -3,7 +3,7 @@ import flask
 from flask import Flask, render_template
 from flask import request
 
-from nlpsection.queryexecutor import execute_query
+from nlpsection.queryexecutor import execute_query,genarate_query
 from nlpsection.util import create_response
 
 # from
@@ -28,7 +28,7 @@ def index():
         year=datetime.now().year,
     )
 
-@app.route('/uploader', methods=['GET', 'POST'])
+@app.route('/executeQuery', methods=['GET', 'POST'])
 def upload():
 
     strLine = request.json['InputText']
@@ -42,8 +42,15 @@ def upload():
 
     return processed_result
 
-@app.route('/ajax', methods=['GET', 'POST'])
+@app.route('/generateQuery', methods=['POST'])
 def res_massage():
+    strLine = request.json['InputText']
+
+    # decodedval = base64.b64decode(requestObject['data'])
+    print('Input Natural query : ', strLine)
+    result = genarate_query(strLine)
+
+
     return "The Corrected Sentence"
 
 
