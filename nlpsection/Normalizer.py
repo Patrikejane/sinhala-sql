@@ -3,7 +3,7 @@
 lemmatisation - find the root word
 '''
 
-sinhala_dictionary = "sinhala_dictionary.txt"
+sinhala_dictionary = "nlpsection/sinhala_dictionary.txt"
 
 sinhala_dict = [str(l) for l in open(sinhala_dictionary)]
 stem_dictionary = {}

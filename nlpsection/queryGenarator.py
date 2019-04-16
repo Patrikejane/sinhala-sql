@@ -1,7 +1,8 @@
 from sklearn.externals import joblib
 import nltk
+import re
 
-sqlmapper = joblib.load('sqlMapper.pkl')
+sqlmapper = joblib.load('nlpsection/sqlMapper.pkl')
 
 boundryTokens = ["සමාන", "වන", "පමණක්", "වැඩි", "වඩා", "අඩු", "ක්"]
 
@@ -185,8 +186,8 @@ def genarate_boundry_command(normalied_tokens,tagedDict):
 def tokernizing_clean(text):
     tokens = nltk.word_tokenize(text)
 
-    # regex = re.compile(u'[^\u0D80-\u0DFF]', re.UNICODE)
-    # tokens = [regex.sub('', w) for w in tokens]
+    regex = re.compile(u'[^\u0D80-\u0DFF]', re.UNICODE)
+    tokens = [regex.sub('', w) for w in tokens]
 
     return tokens
 

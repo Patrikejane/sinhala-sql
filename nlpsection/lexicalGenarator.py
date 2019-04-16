@@ -1,4 +1,4 @@
-from Normalizer import Normaliser
+from nlpsection.Normalizer import Normaliser
 import re
 import csv
 

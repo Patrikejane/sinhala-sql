@@ -1,4 +1,4 @@
-from sqlexcetor import get_connection, close_connection
+from nlpsection.sqlexcetor import get_connection, close_connection
 
 user = 'root'
 password = 'sunimalroot'

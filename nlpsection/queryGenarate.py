@@ -4,7 +4,7 @@ import nltk.tag, nltk.data
 import re
 from sklearn.externals import joblib
 
-from Normalizer import Normaliser
+from nlpsection.Normalizer import Normaliser
 from nlpsection.queryGenarator import validate_main, validate_conditional, create_condisional, create_main_query,\
     genarate_boundry_command ,tokernizing_clean, separate_main_conditional,main_query_tokens,concat_query
 
@@ -13,8 +13,8 @@ from nlpsection.queryGenarator import validate_main, validate_conditional, creat
 stopwords = ['ට', 'වල']
 
 
-tagger = joblib.load('posTagger.pkl')
-sqlmapper = joblib.load('sqlMapper.pkl')
+tagger = joblib.load('nlpsection/posTagger.pkl')
+sqlmapper = joblib.load('nlpsection/sqlMapper.pkl')
 
 def genarate_query(strLine):
     GENARATED_SQL_QUERY = ""
