@@ -5,7 +5,7 @@ import re
 from sklearn.externals import joblib
 
 from Normalizer import Normaliser
-from queryGenarator import validate_main, validate_conditional, create_condisional, create_main_query,\
+from nlpsection.queryGenarator import validate_main, validate_conditional, create_condisional, create_main_query,\
     genarate_boundry_command ,tokernizing_clean, separate_main_conditional,main_query_tokens,concat_query
 
 

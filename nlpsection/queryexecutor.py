@@ -1,11 +1,11 @@
 
-from queryGenarate import genarate_query
-from sqlexcetor import get_connection,close_connection
+from nlpsection.queryGenarate import genarate_query
+from nlpsection.sqlexcetor import get_connection,close_connection
 
 # strLine = " සිසුන්ගේ නම ලකුණු දෙන්න "
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ක් ලබාගත් "
 # strLine = " ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන සිසුන්ගේ නම දෙන්න "
-strLine = " සිසුන්ගේ නම ලකුණු කුමක්ද ලකුණු 75 ට වැඩි "
+# strLine = " සිසුන්ගේ නම ලකුණු කුමක්ද ලකුණු 75 ට වැඩි "
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 ට සමාන සමාන සමාන සමාන "
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස වයස 22 ට සමාන "
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ට සමාන සහ වයස 22 සමාන "
@@ -53,9 +53,10 @@ strLine = " සිසුන්ගේ නම ලකුණු කුමක්ද �
 
 
 def execute_query(strLine):
-    GENARATED_SQL_QUERY = genarate_query(strLine)
+    # GENARATED_SQL_QUERY = genarate_query(strLine)
+    GENARATED_SQL_QUERY = strLine
     print("----------- Genarated Query -----------")
-    print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+    # print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
 
     user, password, host, database = 'root', 'sunimalroot', '127.0.0.1', 'nlpDb'
 
@@ -66,17 +67,21 @@ def execute_query(strLine):
 
     print("----------- query Results -----------")
     results = []
+    column_names = cursor.column_names
     for i in cursor:
-        print(i)
-        results.append(i)
+        obj = {}
+        for j in range(len(column_names)):
+            print(i)
+            obj[column_names[j]] = i[j]
+        results.append(obj)
 
     print("----------- query Results -----------")
     close_connection(cursor)
 
-    return results
+    return results,column_names
 
 
-def genarate_query():
+def generate_query(strLine):
     GENARATED_SQL_QUERY = genarate_query(strLine)
 
     print("----------- Genarated Query -----------")

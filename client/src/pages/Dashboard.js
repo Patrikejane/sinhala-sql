@@ -14,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import {mainListItems} from './listItems';
 import {Switch, Route} from 'react-router-dom';
-import Category from './Category';
+//import Category from './Category';
 import Gallery from './Gallery';
 import Button from '@material-ui/core/Button';
 import {Redirect} from 'react-router-dom';
@@ -206,7 +206,6 @@ class Dashboard extends React.Component {
           <div className={classes.appBarSpacer} />
           <Switch>
             <Route path="/app/gallery" component={Gallery} />
-            <Route path="/app/category" component={Category} />
             <Route exact path="/app" component={Gallery} />
           </Switch>
 

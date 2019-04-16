@@ -17,7 +17,7 @@ axios.defaults.headers.common['contentType'] = 'application/json';
 axios.defaults.headers.common['charset'] = 'UTF-8';
 
 // const baseURL = 'https://demo5358003.mockable.io';
-const baseURL = 'http://192.168.1.9:5000';
+const baseURL = 'http://localhost:5000';
 
 const styles = {
   root: {
@@ -44,6 +44,9 @@ class Gallery extends Component {
     error: {
       mainInput: false,
     },
+
+    result:[],
+    columns:[]
   };
 
   handleChange = name => event => {
@@ -51,7 +54,12 @@ class Gallery extends Component {
     this.setState ({data: {...this.state.data, [name]: event.target.value}});
   };
 
+  capitalizeFirstLetter = string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
   handleMainInput = data => {
+  console.log(data)
     this.setState ({
       loading: true,
       notification: {showMessages: false},
@@ -88,6 +96,64 @@ class Gallery extends Component {
             error: {
               mainInput: true,
             },
+            result:[],
+            columns:[]
+          });
+        }
+      })
+      .catch (error => {
+        this.setState ({
+          loading: false,
+          data: {...this.state.data, generatedQuery: ''},
+          notification: {
+            messages: ['ජාල දෝෂය නැවත උත්සාහ කරන්න'],
+            variant: 'error',
+            showMessages: true,
+          },
+          result:[],
+          columns:[]
+        });
+      });
+  };
+
+
+  handleQueryInput = data => {
+  console.log(data)
+    this.setState ({
+      loading: true,
+      notification: {showMessages: false},
+    });
+
+    axios
+      .post (`${baseURL}/executeQuery`, data)
+      // .post (`${baseURL}/` , data)
+
+
+      .then (response => {
+        if (response.data.status === 'success') {
+            console.log("----1--->",response.data.result)
+          this.setState ({
+            loading: false,
+            result: response.data.result,
+            columns: response.data.columns,
+            notification: {
+              messages: ['උත්පතන නිර්මාණය කරයි'],
+              variant: 'success',
+              showMessages: true,
+            },
+          });
+        } else if (response.data.status === 'invalid') {
+          this.setState ({
+            loading: false,
+            data: {...this.state.data, generatedQuery: ''},
+            notification: {
+              messages: ['වලංගු නොවන යෙදවුම්!'],
+              variant: 'error',
+              showMessages: true,
+            },
+            error: {
+              mainInput: true,
+            },
           });
         }
       })
@@ -103,6 +169,8 @@ class Gallery extends Component {
         });
       });
   };
+
+
 
   isDoubleByte = (str)  => {
     for (var i = 0, n = str.length; i < n; i++) {
@@ -122,12 +190,23 @@ class Gallery extends Component {
       error: {
         mainInput: false,
       },
+      result:[],
+      columns:[]
     });
   };
 
   componentDidMount () {}
 
   render () {
+
+    let temp = []
+    this.state.columns.forEach(x => {
+    temp.push({
+                    Header: this.capitalizeFirstLetter(x),
+                    accessor: x,
+                  })
+
+    })
     const {classes} = this.props;
     return (
       <div>
@@ -181,7 +260,7 @@ class Gallery extends Component {
                   className={classes.button}
                   disabled={this.state.data.mainInput === ''}
                   onClick={() =>
-                    this.handleMainInput ({input: this.state.mainInput})}
+                    this.handleMainInput ({input: this.state.data.mainInput})}
                 >
                   විමසන්න
                 </Button>
@@ -209,7 +288,7 @@ class Gallery extends Component {
 
               <Grid item xs={6} style={{paddingTop: 0}}>
                 <TextField
-                  disabled={true}
+//                  disabled={true}
                   id="outlined-full-width"
                   label="උත්පාදිත වියුහ විමසුම් භාෂාව මෙහි දක්වා ඇත"
                   //style={{margin: 8}}
@@ -231,6 +310,8 @@ class Gallery extends Component {
                   color="primary"
                   className={classes.button}
                   disabled={this.state.data.generatedQuery === ''}
+                   onClick={() =>
+                    this.handleQueryInput ({query: this.state.data.generatedQuery})}
                 >
                   තහවුරුයි
                 </Button>
@@ -241,37 +322,40 @@ class Gallery extends Component {
             </Grid>
 
             <Grid style={{paddingTop: 10}}>
+            {this.state.columns.length !== 0 &&
               <ReactTable
-                data={[]}
-                columns={[
-                  {
-                    Header: 'Name',
-                    accessor: 'firstName',
-                  },
-                  {
-                    Header: 'Name',
-                    accessor: 'firstName',
-                  },
-                  {
-                    Header: 'Name',
-                    accessor: 'firstName',
-                  },
-                  {
-                    Header: 'Name',
-                    accessor: 'firstName',
-                  },
-                  {
-                    Header: 'Name',
-                    accessor: 'firstName',
-                  },
-                  {
-                    Header: 'Name',
-                    accessor: 'firstName',
-                  },
-                ]}
+                data={this.state.result}
+//                columns={[
+//                  {
+//                    Header: 'name',
+//                    accessor: 'name',
+//                  },
+//                  {
+//                    Header: 'Name',
+//                    accessor: 'firstName',
+//                  },
+//                  {
+//                    Header: 'Name',
+//                    accessor: 'firstName',
+//                  },
+//                  {
+//                    Header: 'Name',
+//                    accessor: 'firstName',
+//                  },
+//                  {
+//                    Header: 'Name',
+//                    accessor: 'firstName',
+//                  },
+//                  {
+//                    Header: 'Name',
+//                    accessor: 'firstName',
+//                  },
+//                ]}
+                columns = {temp}
                 defaultPageSize={8}
                 className="-striped -highlight"
               />
+              }
             </Grid>
           </CardContent>
 
