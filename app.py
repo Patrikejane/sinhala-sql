@@ -4,17 +4,17 @@ from flask import Flask, render_template, make_response
 from flask import request
 from flask_cors import CORS
 
-from nlpsection.queryexecutor import execute_query,generate_query
+# from nlpsection.queryexecutor import execute_query,generate_query
+from nlpsection.QueryExecutor import QueryExecutor
 from nlpsection.util import create_response
 
 # from
 import json
 import base64
 
-
-
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 # @app.route("/")
 # def hello():
@@ -30,27 +30,28 @@ def index():
         year=datetime.now().year,
     )
 
+
 @app.route('/executeQuery', methods=['GET', 'POST'])
 def upload():
-
     strLine = request.json['query']
 
     # decodedval = base64.b64decode(requestObject['data'])
     print('Input Natural query : ', strLine)
-    result,columns = execute_query(strLine)
+    executer = QueryExecutor(strLine)
+    result, columns = executer.execute_query()
 
     # processed_result = create_response(result)
 
     json_data = {}
-    json_data['status'] ="success"
+    json_data['status'] = "success"
     json_data['result'] = result
     json_data['columns'] = list(columns)
     json_data['message'] = ''
     resp = make_response(json.dumps(json_data), 200)
     resp.headers['Content-type'] = 'application/json; charset=utf-8'
 
-
     return resp
+
 
 @app.route('/generateQuery', methods=['POST'])
 def res_massage():
@@ -59,18 +60,17 @@ def res_massage():
 
     # decodedval = base64.b64decode(requestObject['data'])
     print('Input Natural query : ', strLine)
-    result = generate_query(strLine)
+
+    executer = QueryExecutor(strLine)
+    result = executer.generate_query()
 
     json_data = {}
-    json_data['status'] ="success"
+    json_data['status'] = "success"
     json_data['query'] = result
     json_data['message'] = ''
     resp = make_response(json.dumps(json_data), 200)
     resp.headers['Content-type'] = 'application/json; charset=utf-8'
     return resp
-
-
-
 
 
 if __name__ == '__main__':

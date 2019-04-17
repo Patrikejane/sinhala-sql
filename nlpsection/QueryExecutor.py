@@ -1,6 +1,7 @@
-
-from nlpsection.queryGenarate import genarate_query
-from nlpsection.sqlexcetor import get_connection,close_connection
+# from nlpsection.queryGenarate import genarate_query
+from nlpsection.TextProcesser import TextProcesser
+# from nlpsection.sqlexcetor import get_connection,close_connection
+from nlpsection.DbConnector import DbConnector
 
 # strLine = " සිසුන්ගේ නම ලකුණු දෙන්න "
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ක් ලබාගත් "
@@ -52,39 +53,93 @@ from nlpsection.sqlexcetor import get_connection,close_connection
 # close_connection(cursor)
 
 
-def execute_query(strLine):
-    # GENARATED_SQL_QUERY = genarate_query(strLine)
-    GENARATED_SQL_QUERY = strLine
-    print("----------- Genarated Query -----------")
-    # print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+# def execute_query(strLine):
+#     # GENARATED_SQL_QUERY = genarate_query(strLine)
+#     GENARATED_SQL_QUERY = strLine
+#     print("----------- Genarated Query -----------")
+#     # print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+#
+#     user, password, host, database = 'root', 'sunimalroot', '127.0.0.1', 'nlpDb'
+#
+#     connection = get_connection(user, password, host, database)
+#
+#     cursor = connection.cursor()
+#     cursor.execute(GENARATED_SQL_QUERY)
+#
+#     print("----------- query Results -----------")
+#     results = []
+#     column_names = cursor.column_names
+#     for i in cursor:
+#         obj = {}
+#         for j in range(len(column_names)):
+#             print(i)
+#             obj[column_names[j]] = i[j]
+#         results.append(obj)
+#
+#     print("----------- query Results -----------")
+#     close_connection(cursor)
+#
+#     return results,column_names
+#
+#
+# def generate_query(strLine):
+#     GENARATED_SQL_QUERY = genarate_query(strLine)
+#
+#     print("----------- Genarated Query -----------")
+#     print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+#
+#     return  GENARATED_SQL_QUERY
 
-    user, password, host, database = 'root', 'sunimalroot', '127.0.0.1', 'nlpDb'
+'''
 
-    connection = get_connection(user, password, host, database)
+class implementation of QueryExecutor , generate query and execute query methods
 
-    cursor = connection.cursor()
-    cursor.execute(GENARATED_SQL_QUERY)
-
-    print("----------- query Results -----------")
-    results = []
-    column_names = cursor.column_names
-    for i in cursor:
-        obj = {}
-        for j in range(len(column_names)):
-            print(i)
-            obj[column_names[j]] = i[j]
-        results.append(obj)
-
-    print("----------- query Results -----------")
-    close_connection(cursor)
-
-    return results,column_names
+'''
 
 
-def generate_query(strLine):
-    GENARATED_SQL_QUERY = genarate_query(strLine)
+class QueryExecutor:
 
-    print("----------- Genarated Query -----------")
-    print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+    def __init__(self, Text):
+        self.strLine = Text
 
-    return  GENARATED_SQL_QUERY
+    def generate_query(self):
+
+        textProcesser = TextProcesser(self.strLine)
+        GENARATED_SQL_QUERY = textProcesser.genarate_query()
+
+        print("----------- Genarated Query -----------")
+        print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+
+        return GENARATED_SQL_QUERY
+
+    def execute_query(self):
+        # GENARATED_SQL_QUERY = genarate_query(strLine)
+        GENARATED_SQL_QUERY = self.strLine
+        print("----------- Genarated Query -----------")
+        # print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
+
+        user, password, host, database = 'root', 'sunimalroot', '127.0.0.1', 'nlpDb'
+
+        # connection = get_connection(user, password, host, database)
+
+        dbConnector = DbConnector(user, password, host, database)
+
+        connection = dbConnector.get_connection()
+
+        cursor = connection.cursor()
+        cursor.execute(GENARATED_SQL_QUERY)
+
+        print("----------- query Results -----------")
+        results = []
+        column_names = cursor.column_names
+        for i in cursor:
+            obj = {}
+            for j in range(len(column_names)):
+                print(i)
+                obj[column_names[j]] = i[j]
+            results.append(obj)
+
+        print("----------- query Results -----------")
+        dbConnector.close_connection(cursor)
+
+        return results, column_names
