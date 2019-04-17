@@ -9,6 +9,7 @@ from nlpsection.Normalizer import Normaliser
 #     genarate_boundry_command ,tokernizing_clean, separate_main_conditional,main_query_tokens,concat_query
 
 from nlpsection.QueryGenerator import QueryGenerator
+from nlpsection.stopwords import get_stopwordlist
 
 
 '''
@@ -22,7 +23,7 @@ class TextProcesser:
 
     def __init__(self, Text):
         self.strLine = Text
-        self.stopwords = ['ට', 'වල']
+        self.stopwords = ['ට', 'වල'] + get_stopwordlist()
         self.tagger = joblib.load('nlpsection/posTagger.pkl')
         # self.sqlmapper = joblib.load('nlpsection/sqlMapper.pkl')
 
