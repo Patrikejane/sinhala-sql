@@ -8,7 +8,7 @@ Class Implementation of Text Processer Util functions
 '''
 
 
-class TextProcessorUtil:
+class QueryGenerator:
 
     def __init__(self):
         self.sqlmapper = joblib.load('nlpsection/sqlMapper.pkl')

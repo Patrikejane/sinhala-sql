@@ -1,4 +1,13 @@
 ID,Sinahala_words,English_words,Semmantic_meaning
+1,සිසුවා,Student,Table
+2,ශිෂ්‍යයා,Student,Table
+3,ළමයා,Student,Table
+4,ලමයා,Student,Table
+5,නම,name,column
+6,ලිපිනය,address,column
+7,වයස,age,column
+8,ලකුණු,marks,column
+9,ලකුනු,marks,column
 10,ලබාදෙන්න,select,command
 11,දෙන්න,select,command
 12,කුමක්ද,select,command
@@ -32,3 +41,4 @@ ID,Sinahala_words,English_words,Semmantic_meaning
 ,අනුපිලිවලින්,ORDER BY,function
 ,පිලිවලින්,ORDER BY,function
 ,පිලිවලට,ORDER BY,function
+31,සිසුන්,Student,Table

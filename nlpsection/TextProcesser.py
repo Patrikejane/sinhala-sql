@@ -8,7 +8,7 @@ from nlpsection.Normalizer import Normaliser
 # from nlpsection.queryGenarator import validate_main, validate_conditional, create_condisional, create_main_query,\
 #     genarate_boundry_command ,tokernizing_clean, separate_main_conditional,main_query_tokens,concat_query
 
-from nlpsection.TextProcessorUtil import TextProcessorUtil
+from nlpsection.QueryGenerator import QueryGenerator
 
 
 '''
@@ -28,7 +28,8 @@ class TextProcesser:
 
     def genarate_query(self):
 
-        textProcessorUtil = TextProcessorUtil()
+        normalizer = Normaliser("/Users/sskmal/Documents/Nlpk/NlpkPhaseOne/nlpsection/sinhala_dictionary.txt")
+        textProcessorUtil = QueryGenerator()
 
         GENARATED_SQL_QUERY = ""
 
@@ -38,7 +39,7 @@ class TextProcesser:
         print("tokenized sentence : ", tokeniezed)
 
         # with stop words
-        normalied_tokens_stop = list(map(Normaliser, tokeniezed))
+        normalied_tokens_stop = list(map(normalizer.normalise, tokeniezed))
         print("normalied_tokens with stop words : ", normalied_tokens_stop)
 
         # remove stop words

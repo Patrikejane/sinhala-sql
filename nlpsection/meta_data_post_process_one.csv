@@ -1,5 +1,14 @@
 Sinahala_words,Root_word,English_words,"Semmantic_meaning
 "
+සිසුවා,සිසුවා,Student,Table
+ශිෂ්යයා,ශිෂ්යයා,Student,Table
+ළමයා,ළමයා,Student,Table
+ලමයා,ලමයා,Student,Table
+නම,නම,name,column
+ලිපිනය,ලිපින,address,column
+වයස,වයස,age,column
+ලකුණු,ලකුණු,marks,column
+ලකුනු,ලකුනු,marks,column
 ලබාදෙන්න,ලබාදෙන්න,select,command
 දෙන්න,ලබාදෙන්න,select,command
 කුමක්ද,කුමක්,select,command
@@ -33,13 +42,4 @@ Sinahala_words,Root_word,English_words,"Semmantic_meaning
 අනුපිලිවලින්,අනුපිලිවලින්,ORDER BY,function
 පිලිවලින්,පිලිවලින්,ORDER BY,function
 පිලිවලට,පිලිවලට,ORDER BY,function
-hibernate_sequence,hibernate_sequence,hibernate_sequence,Table
-next_val,next_val,next_val,column
-Student,Student,Student,Table
-student_id,student_id,student_id,column
-name,name,name,column
-marks,marks,marks,column
-සිසුන්,සිසුන්,සිසුන්,Table
-id,id,id,column
-නම,නම,නම,column
-ලකුණු,ලකුණු,ලකුණු,column
+සිසුන්,සිසුන්,Student,Table
