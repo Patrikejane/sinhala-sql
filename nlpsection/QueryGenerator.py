@@ -84,6 +84,53 @@ class QueryGenerator:
 
         return query_dic
 
+    def combineMultipleLogics(self,listConditions):
+        newCondition = ''
+        for i in listConditions:
+            newCondition += i[0]
+
+        newConditionTag = (newCondition, 'Condition _ operator')
+        # print('new Condition tag : ', newConditionTag)
+        return newConditionTag
+
+    def findCombinedLogics(self,normalise_tokens):
+        RETURN_LIST = normalise_tokens
+        indexes = []
+        for i in range(len(normalise_tokens)):
+            sqlsyntax0, sematic_mean0 = normalise_tokens[i]
+            if (sematic_mean0 == 'Condition _ operator' and i != len(normalise_tokens) - 1):
+                sqlsyntax1, sematic_mean1 = normalise_tokens[i + 1]
+                if (sematic_mean1 == 'Logical_operator ' and i + 1 != len(normalise_tokens) - 1):
+                    sqlsyntax2, sematic_mean2 = normalise_tokens[i + 2]
+                    if sematic_mean2 == 'Condition _ operator':
+                        A, B, C = RETURN_LIST[:i], RETURN_LIST[i:i + 2 + 1], RETURN_LIST[i + 2 + 1:]
+                        multipleCond = self.combineMultipleLogics(B)
+
+                        indexes.append((i, multipleCond))
+
+        # print(indexes)
+        return indexes
+
+    def recreateTagedNormedlist(self,normalise_tokens, indexes):
+        newLs = normalise_tokens
+        newIndexes = []
+        for i in range(len(indexes)):
+            index, tag = indexes[i]
+            newLs.insert(index + (1 * i), tag)
+            newIndexes.append(index + (1 * i))
+
+        # print('new list : ', newLs)
+
+        newtaggedList = []
+        for i in range(len(newIndexes)):
+            if (i == 0):
+                newtaggedList += newLs[:(newIndexes[i] + 1)]
+            else:
+                newtaggedList += newLs[(newIndexes[i - 1] + 4):(newIndexes[i] + 1)]
+
+        # print('new tagged list : ', newtaggedList)
+        return newtaggedList
+
     def validate_conditional(self, conditional, conditions, logicalobject):
         if len(conditional) > 0:
             conObject = {}

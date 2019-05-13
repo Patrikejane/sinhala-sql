@@ -14,11 +14,11 @@ ID,Sinahala_words,English_words,Semmantic_meaning
 20,ටවැඩි,>,Condition _ operator
 ,වැඩි,>,Condition _ operator
 21,වඩා,>,Condition _ operator
-22,ට අඩු,<,Condition _ operator
-23,හෝ වැඩි,>=,Condition _ operator
-24,සහ වැඩි,>=,Condition _ operator
-25,හෝ අඩු,<=,Condition _ operator 
-26,සහ අඩු,<=,Condition _ operator
+22,අඩු,<,Condition _ operator
+27,වැඩිහෝසමාන,>=,Condition _ operator
+28,විශාලහෝසමාන,>=,Condition _ operator
+29,කුඩාහෝසමාන,<=,Condition _ operator
+30,අඩුහෝසමාන,<=,Condition _ operator
 27,ලබාගත්,-,unnecessary_word
 28,නිසා,-,unnecessary_word
 29,ඇත,-,unnecessary_word

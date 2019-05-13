@@ -36,20 +36,30 @@ class TextProcesser:
 
         print("Sinhala String Query : ", self.strLine)
 
+
+        #tokenize the text
         tokeniezed = textProcessorUtil.tokernizing_clean(self.strLine)
         print("tokenized sentence : ", tokeniezed)
 
-        # with stop words
+        '''########## with stop words ##########'''
         normalied_tokens_stop = list(map(normalizer.normalise, tokeniezed))
         print("normalied_tokens with stop words : ", normalied_tokens_stop)
+        '''###################################'''
 
-        # remove stop words
+        '''######## remove stop words ########'''
         normalied_tokens = [item for item in normalied_tokens_stop if item not in self.stopwords]
         print("normalied_tokens removed stop words : ", normalied_tokens)
+        '''###################################'''
 
-        # tag the stop word removed string
+        '''##### tag the stop word removed string #####'''
         tagger_list = self.tagger.tag(normalied_tokens)
         print("pos tagged tokens : ", tagger_list)
+        '''############################################'''
+
+        '''############### වැඩිහෝසමාන අඩුහෝසමාන #################'''
+        indexes = textProcessorUtil.findCombinedLogics(tagger_list)
+        tagger_list = textProcessorUtil.recreateTagedNormedlist(tagger_list,indexes)
+        '''#####################################################'''
 
         tagedDict = h = {v: k for k, v in tagger_list}
 
