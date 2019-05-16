@@ -108,28 +108,31 @@ class QueryGenerator:
 
                         indexes.append((i, multipleCond))
 
-        # print(indexes)
         return indexes
 
     def recreateTagedNormedlist(self,normalise_tokens, indexes):
+
         newLs = normalise_tokens
         newIndexes = []
-        for i in range(len(indexes)):
-            index, tag = indexes[i]
-            newLs.insert(index + (1 * i), tag)
-            newIndexes.append(index + (1 * i))
+        if(len(indexes) == 0):
+            return newLs
+        else:
+            for i in range(len(indexes)):
+                index, tag = indexes[i]
+                newLs.insert(index + (1 * i), tag)
+                newIndexes.append(index + (1 * i))
 
-        # print('new list : ', newLs)
+            # print('new list : ', newLs)
 
-        newtaggedList = []
-        for i in range(len(newIndexes)):
-            if (i == 0):
-                newtaggedList += newLs[:(newIndexes[i] + 1)]
-            else:
-                newtaggedList += newLs[(newIndexes[i - 1] + 4):(newIndexes[i] + 1)]
+            newtaggedList = []
+            for i in range(len(newIndexes)):
+                if (i == 0):
+                    newtaggedList += newLs[:(newIndexes[i] + 1)]
+                else:
+                    newtaggedList += newLs[(newIndexes[i - 1] + 4):(newIndexes[i] + 1)]
 
-        # print('new tagged list : ', newtaggedList)
-        return newtaggedList
+            # print('new tagged list : ', newtaggedList)
+            return newtaggedList
 
     def validate_conditional(self, conditional, conditions, logicalobject):
         if len(conditional) > 0:
