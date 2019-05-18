@@ -49,6 +49,8 @@ class QueryGenerator:
                 if function_found and sem == 'column' and columns.count(self.sqlmapper[sq]) > 0:
                     columns.remove(self.sqlmapper[sq])
                     functions += " " + self.sqlmapper[sq]
+                elif function_found and sem == 'column' and columns.count(self.sqlmapper[sq]) == 0:
+                    functions += " " + self.sqlmapper[sq]
 
             if not calculation_found and sematic_mean == 'calculation':
                 calculation_found = True
@@ -252,8 +254,8 @@ class QueryGenerator:
         return tokens
 
     def separate_main_conditional(self, boundryIndex, commandIndex, tagger_list_norm):
-        mainQuery = ''
-        conditionalQuery = ''
+        mainQuery = []
+        conditionalQuery = []
         if boundryIndex < commandIndex:
             conditionalQuery = tagger_list_norm[:boundryIndex + 1]
             mainQuery = tagger_list_norm[boundryIndex + 1:]
@@ -263,6 +265,18 @@ class QueryGenerator:
             mainQuery = tagger_list_norm[:commandIndex + 1]
             conditionalQuery = tagger_list_norm[commandIndex + 1::]
             # print("conditional part after main ")
+
+        for i in range(len(tagger_list_norm)):
+            sqlsyntax, sematic_mean = tagger_list_norm[i]
+            if(sematic_mean == 'function'):
+                if tagger_list_norm[i] not in mainQuery:
+                    mainQuery.append(tagger_list_norm[i - 1])
+                    mainQuery.append(tagger_list_norm[i])
+
+                if tagger_list_norm[i] in conditionalQuery:
+                    index = conditionalQuery.index(tagger_list_norm[i])
+                    conditionalQuery = conditionalQuery[index+1::]
+
         return mainQuery, conditionalQuery
 
     def main_query_tokens(self, mainQuery):

@@ -29,6 +29,7 @@ from nlpsection.DbConnector import DbConnector
 # strLine = " සිසුන් ගණන කීයද "
 # strLine = " සියලු සිසුන් ප්රමාණය දෙන්න "
 # strLine = " වයස 21 ට වැඩි සිසුන් කොපමණ සිටීද "
+# strLine = "සිසුන්ගේ නම දෙන්න ලකුණු අනුපිලිවලින් ලකුණු 75 ට වැඩිහෝසමාන හෝ  ලකුණු 25 ට වැඩි"
 
 
 '''
