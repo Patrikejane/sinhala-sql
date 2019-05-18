@@ -12,7 +12,7 @@ class QueryGenerator:
 
     def __init__(self):
         self.sqlmapper = joblib.load('nlpsection/sqlMapper.pkl')
-        self.boundryTokens = ["සමාන", "වන", "පමණක්", "වැඩි", "වඩා", "අඩු", "ක්"]
+        self.boundryTokens = ["සමාන", "වන", "පමණක්", "වැඩි", "වඩා", "අඩු", "ක්","වැඩිහෝසමාන", "අඩුහෝසමාන"]
 
     def validate_main(self, mainQuery, OperationsList, listOfTableName, listOfAttributes):
         tablename = ''
