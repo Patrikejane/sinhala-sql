@@ -7,8 +7,8 @@ Sinahala_words,Root_word,English_words,"Semmantic_meaning
 කොපමණද,කොපමණ,select,command
 පමණක්,පමණක,where,condition
 සහ,සහ,And,Logical_operator 
-හා,හා,And,Logical_operator 
-හෝ,හෝ,Or,Logical_operator 
+හා,හා,And,Logical_operator
+හෝ,හෝ,Or,Logical_operator
 ක්,ක්,=,Condition _ operator
 සමාන,සමාන,=,Condition _ operator
 ටවැඩි,ටවැඩි,>,Condition _ operator
@@ -27,7 +27,7 @@ Sinahala_words,Root_word,English_words,"Semmantic_meaning
 ගණන,ගණන,count,calculation
 එකතුව,එකතුව,sum,calculation
 ප්රමාණය,ප්රමාණය,count,calculation
-සාමාන්යය,සාමාන්යය,average,calculation
+සාමාන්යය,සාමාන්යය,avg,calculation
 උපරිම,උපරිම,max,calculation
 අවම,අවම,min,calculation
 අනුපිලිවලින්,අනුපිලිවලින්,ORDER BY,function

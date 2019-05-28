@@ -14,9 +14,9 @@ ID,Sinahala_words,English_words,Semmantic_meaning
 13,කීයද,select,command
 14,කොපමණද,select,command
 15,පමණක්,where,condition
-16,සහ,And,Logical_operator 
-17,හා,And,Logical_operator 
-18,හෝ,Or,Logical_operator 
+16,සහ,And,Logical_operator
+17,හා,And,Logical_operator
+18,හෝ,Or,Logical_operator
 19,ක්,=,Condition _ operator
 ,සමාන,=,Condition _ operator
 20,ට වැඩි,>,Condition _ operator
@@ -26,7 +26,7 @@ ID,Sinahala_words,English_words,Semmantic_meaning
 22,ට අඩු,<,Condition _ operator
 23,හෝ වැඩි,>=,Condition _ operator
 24,සහ වැඩි,>=,Condition _ operator
-25,හෝ අඩු,<=,Condition _ operator 
+25,හෝ අඩු,<=,Condition _ operator
 26,සහ අඩු,<=,Condition _ operator
 27,ලබාගත්,-,unnecessary_word
 28,නිසා,-,unnecessary_word
@@ -35,7 +35,7 @@ ID,Sinahala_words,English_words,Semmantic_meaning
 ,ගණන,count,calculation
 ,එකතුව,sum,calculation
 ,ප්රමාණය,count,calculation
-,සාමාන්යය,average,calculation
+,සාමාන්යය,avg,calculation
 ,උපරිම,max,calculation
 ,අවම,min,calculation
 ,අනුපිලිවලින්,ORDER BY,function
