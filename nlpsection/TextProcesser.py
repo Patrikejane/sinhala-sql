@@ -61,6 +61,8 @@ class TextProcesser:
         tagger_list = textProcessorUtil.recreateTagedNormedlist(tagger_list,indexes)
         '''#####################################################'''
 
+        tagged_token_list = textProcessorUtil.gettagged_token_list(tagger_list)
+
         tagedDict = h = {v: k for k, v in tagger_list}
 
         # remove unnecessary words
@@ -75,7 +77,7 @@ class TextProcesser:
         # tagger_list_norm = [v for k,v in tagedDict if k != 'unnecessary_word']
 
         # boundry index and command index
-        boundryIndex, commandIndex = textProcessorUtil.genarate_boundry_command(normalied_tokens, tagedDict)
+        boundryIndex, commandIndex = textProcessorUtil.genarate_boundry_command(tagged_token_list, tagedDict)
 
         # separate main query and conditional query
         mainQuery, conditionalQuery = textProcessorUtil.separate_main_conditional(boundryIndex, commandIndex,

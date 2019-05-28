@@ -128,7 +128,10 @@ class QueryGenerator:
 
             newtaggedList = []
             for i in range(len(newIndexes)):
-                if (i == 0):
+                if (i == 0 and len(newIndexes) == 1):
+                    newtaggedList += newLs[:(newIndexes[i] + 1)]
+                    newtaggedList += newLs[(newIndexes[i] + 4):]
+                elif (i == 0 and len(newIndexes) > 1):
                     newtaggedList += newLs[:(newIndexes[i] + 1)]
                 else:
                     newtaggedList += newLs[(newIndexes[i - 1] + 4):(newIndexes[i] + 1)]
@@ -321,3 +324,10 @@ class QueryGenerator:
 
         GENARATED_SQL_QUERY = GENARATED_SQL_QUERY + " " + GENARATED_SQL_FUNCTION
         return GENARATED_SQL_QUERY
+
+    def gettagged_token_list(self,tagger_list):
+        tagged_token_list = []
+        for i in tagger_list:
+            tagged_token_list.append(i[0])
+
+        return tagged_token_list
