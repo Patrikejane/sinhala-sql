@@ -2,6 +2,7 @@
 from nlpsection.TextProcesser import TextProcesser
 # from nlpsection.sqlexcetor import get_connection,close_connection
 from nlpsection.DbConnector import DbConnector
+from nlpsection.QueryGenerator import QueryGenerator
 
 # strLine = " සිසුන්ගේ නම ලකුණු දෙන්න "
 # strLine = " සිසුන්ගේ නම දෙන්න ලකුණු 75 ක් ලබාගත් "
@@ -60,6 +61,10 @@ class QueryExecutor:
         print("----------- Genarated Query -----------")
         # print("genarated query : " + '[ ' + GENARATED_SQL_QUERY + ']')
 
+        queryProcesser = QueryGenerator()
+
+        typeOfQuery = queryProcesser.QueryProcesser(GENARATED_SQL_QUERY)
+
         user, password, host, database = 'root', 'sunimalroot', '127.0.0.1', 'nlpDb'
 
         # connection = get_connection(user, password, host, database)
@@ -84,4 +89,4 @@ class QueryExecutor:
         print("----------- query Results -----------")
         dbConnector.close_connection(cursor)
 
-        return results, column_names
+        return results, column_names,typeOfQuery

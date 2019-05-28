@@ -3,6 +3,7 @@ import flask
 from flask import Flask, render_template, make_response
 from flask import request
 from flask_cors import CORS
+import re
 
 # from nlpsection.queryexecutor import execute_query,generate_query
 from nlpsection.QueryExecutor import QueryExecutor
@@ -38,9 +39,22 @@ def upload():
     # decodedval = base64.b64decode(requestObject['data'])
     print('Input Natural query : ', strLine)
     executer = QueryExecutor(strLine)
-    result, columns = executer.execute_query()
+    result, columns, type = executer.execute_query()
 
     # processed_result = create_response(result)
+
+    if(type[0] == 'calculation'):
+        m = re.findall('\((.*?)\)', columns[0])[0]
+        columns = (type[1] + ' ' + m,)
+
+        key = list(result[0].keys())[0]
+        value = result[0][key]
+
+        calculation_result = {}
+
+        calculation_result[type[1] + ' ' + m] = str(value)
+
+        result = [calculation_result]
 
     json_data = {}
     json_data['status'] = "success"

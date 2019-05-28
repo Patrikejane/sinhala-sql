@@ -102,7 +102,7 @@ class QueryGenerator:
             sqlsyntax0, sematic_mean0 = normalise_tokens[i]
             if (sematic_mean0 == 'Condition _ operator' and i != len(normalise_tokens) - 1):
                 sqlsyntax1, sematic_mean1 = normalise_tokens[i + 1]
-                if (sematic_mean1 == 'Logical_operator ' and i + 1 != len(normalise_tokens) - 1):
+                if (sematic_mean1 == 'Logical_operator' and i + 1 != len(normalise_tokens) - 1):
                     sqlsyntax2, sematic_mean2 = normalise_tokens[i + 2]
                     if sematic_mean2 == 'Condition _ operator':
                         A, B, C = RETURN_LIST[:i], RETURN_LIST[i:i + 2 + 1], RETURN_LIST[i + 2 + 1:]
@@ -331,3 +331,21 @@ class QueryGenerator:
             tagged_token_list.append(i[0])
 
         return tagged_token_list
+
+    def QueryProcesser(self,query):
+
+        if(('avg(' in query) or ('AVG(' in query)):
+            return 'calculation', 'average'
+
+        elif(('sum(' in query) or ('SUM(' in query)):
+            return 'calculation', 'summation'
+
+        elif (('count(' in query) or ('COUNT(' in query)):
+            return 'calculation', 'count'
+        elif (('min(' in query) or ('MIN(' in query)):
+            return 'calculation', 'minimum'
+        elif (('max(' in query) or ('MIN(' in query)):
+            return 'calculation', 'maximum'
+
+        else:
+            return 'data','data'
